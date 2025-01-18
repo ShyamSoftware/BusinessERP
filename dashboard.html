@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" href="logo.png" type="image/png">
+</head>
+<body>
+  <header class="dashboard-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo" class="logo">
+      <h1>Shyam Software</h1>
+      <button id="logout-button" class="logout-btn">Logout</button>
+    </div>
+    
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+    <div id="search-container">
+      <input type="text" id="search" placeholder="Search by Name or Mobile No" onkeyup="filterData()">
+    </div>
+
+    <div class="table-container">
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th class="first-column">Name</th>
+            <th class="second-column">Mobile</th>
+            <th class="third-column"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be inserted here dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+/* General Reset */
+body {
+  margin: 10px;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7fc;
+  color: #333;
+}
+
+/* Dashboard Container */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  background-color: #fafafa;
+  box-shadow: 0 4px 8px rgba(250, 3, 3, 0.1);
+  color: white;
+}
+
+.logo-container {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 80%;
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: left; /* Align items vertically to the center */
+  justify-content: space-between; /* Space out the elements */
+  padding: 10px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #8b0c8b;
+  margin: 10px; /* Remove default margin */
+  text-align: left; /* Ensure text aligns to the left */
+}
+
+.logout-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px; /* Small dimensions */
+  font-size: 0.85rem; /* Small font size */
+  cursor: pointer;
+  border-radius: 3px; /* Reduced border-radius */
+  margin-left: auto; /* Move to the right */
+}
+
+.logout-btn:hover {
+  background-color: #ff1a1a;
+}
+
+
+/* Search Input */
+#search-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px;
+  text-align: left;
+}
+
+#search {
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+
+}
+
+#search:focus {
+  border-color: #007BFF;
+}
+
+/* Edit Modal Input */
+#edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  width: 350px;
+  display: flex;
+  flex-direction: column; /* Stack the inputs and buttons */
+  align-items: center; /* Center the input fields */
+}
+
+/* Style for the labels */
+.modal-content label {
+  width: 100%; /* Labels take full width */
+  text-align: left; /* Left-align the label text */
+  margin-bottom: 5px; /* Space below the label */
+  font-weight: bold; /* Optional: Make the label text bold */
+}
+
+/* Style for the inputs */
+.modal-content input {
+  width: 100%; /* Set input width to 100% for alignment with the label */
+  padding: 10px;
+  margin-bottom: 10px; /* Add space between inputs */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the select dropdown */
+#edit-status {
+  width: 100%; /* Make the select element take up the full width */
+  padding: 10px; /* Add padding inside the dropdown */
+  font-size: 1rem; /* Set the font size */
+  border: 1px solid #ccc; /* Light border color */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  color: #333; /* Text color */
+  cursor: pointer; /* Change cursor to pointer when hovered */
+  outline: none; /* Remove the outline when focused */
+  transition: all 0.3s ease; /* Smooth transition for hover/focus effects */
+}
+
+/* Style when the select box is focused */
+#edit-status:focus {
+  border-color: #007BFF; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Add a light blue glow around it */
+}
+
+/* Style for options */
+#edit-status option {
+  padding: 10px; /* Padding inside the options */
+  font-size: 1rem; /* Font size for options */
+}
+
+/* Optional: Style to highlight the selected option */
+#edit-status option:checked {
+  background-color: #007BFF; /* Change background color of selected option */
+  color: white; /* Change text color of selected option */
+}
+
+/* Style for the buttons */
+.modal-content button {
+  width: 100%; /* Match button width with the input */
+  margin: 5px 0; /* Space between buttons */
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Save button style */
+#save-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Cancel button style */
+#cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+
+
+/* Table Styles */
+.table-container {
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+/* Make Table Header Fixed and Rows Scrollable */
+table {
+  table-layout: fixed; /* Enforce fixed column widths */
+  width: 100%; /* Occupy full width of the container */
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #ddd; /* Optional: for borders */
+  overflow: hidden; /* Prevent content overflow */
+  text-overflow: ellipsis; /* Add ellipsis for truncated text */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+
+th.third-column, td.third-column {
+  width: 25%; /* Third column gets a smaller width */
+  text-align: center; /* Center-align for better aesthetics */
+}
+
+
+th {
+  background-color: #007BFF;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.edit-btn, .delete-btn, .share-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 4px; /* Smaller padding for compact size */
+  font-size: 10px; /* Adjust font size for smaller dimensions */
+  cursor: pointer;
+  display: inline-block; /* Ensures it doesn't stretch */
+}
+
+.edit-btn:hover {
+  background-color: #ddd;
+}
+
+
+.actions-column {
+  width: 60px; /* Adjust this width as needed */
+  text-align: center; /* Center-align the button */
+}
+
+/* Container for Scrollable Table Rows */
+.table-scroll {
+  height: 300px; /* You can adjust the height as per your requirement */
+  overflow-y: auto;  /* Scroll the tbody */
+  display: block;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.6rem;
+    margin: 10px; /* Remove default margin */
+  }
+  .actions-column {
+    width: 40px;
+  }
+  #search {
+    padding: 10px;
+    width: 100%;
+    margin: 0px;
+  }
+
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    margin: 0;
+    padding: 10px;
+    margin-right: 25px;
+    
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    margin: 15px; /* Remove default margin */
+  }
+
+  .actions-column {
+    width: 30px;
+  }
+  .table-container {
+    padding: 10px;
+    width: 100%;
+    Margin-right: 0px;
+  }
+
+  table th, table td {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  table td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  #search {
+    padding: 10px;
+    width: 100%;
+    margin: 0px;
+  }
+
+    
+}
