@@ -220,18 +220,18 @@ function shareRecord(mobileNo) {
   const isAndroid = /Android/i.test(navigator.userAgent);
   const message = "Thank you for visiting *Bemor* - We hope you had a great experience exploring our furniture collection. Your feedback means the world to us! Please take a moment to share your thoughts by leaving us a review here: https://g.co/kgs/Qws5fwY. Looking forward to serving you again!";
   //const whatsappURL = `https://wa.me/${mobileNo}?text=${encodeURIComponent(message)}`;
-
+  const encodedMessage = encodeURIComponent(message); // Encode the message for URL
+  
   if (isAndroid) {
-    const businessWAURL = `intent://send/?phone=${mobileNo}&text=${encodeURIComponent(message)}#Intent;package=com.whatsapp.w4b;end;`;
-    window.location.href = businessWAURL;
+    whatsappUri = `whatsapp://send?phone=${mobileNo}&text=${encodedMessage}`;
   } else {
-    const whatsappURL = `https://wa.me/${mobileNo}?text=${encodeURIComponent(message)}`;
-    //window.location.href = whatsappURL;
-    window.open(whatsappURL, '_blank');
+    whatsappUri = `https://web.whatsapp.com/send?phone=${mobileNo}&text=${encodedMessage}`;
   }
 
+  //window.location.href = whatsappUri;
   // Open WhatsApp in a new tab or the app if it's on mobile
-  //window.open(whatsappURL, '_blank');
+  window.open(whatsappUri, '_blank');
+
 }
 
 function filterData() {
