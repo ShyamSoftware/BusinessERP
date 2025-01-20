@@ -3,9 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Shyam Software</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="logo.png" type="image/png">
+  <style>
+    .bottom-tab {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+      line-height: 1.6; /* Adjust spacing between lines */
+    }
+    .bottom-tab a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+    .bottom-tab a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  
 </head>
 <body>
   <div class="login-container">
@@ -24,6 +47,17 @@
     </form>
     <div id="login-error" class="error-message"></div>
   </div>
+
+  <!-- Bottom Tab -->
+  <div class="bottom-tab">
+    Contact Us:<br>
+    Mo.: <a href="tel:+917016146191">+91 7016146191</a> | 
+    Web: <a href="https://www.shyamsoftware.com" target="_blank">www.shyamsoftware.com</a>
+  </div>
+  
+  
+  
+
   <script src="script.js"></script>
 </body>
 </html>

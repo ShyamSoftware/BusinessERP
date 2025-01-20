@@ -89,7 +89,6 @@ function displayData(data) {
   });
 }
 
-
 function openEditModal(id) {
   const record = dataCache.find(row => row.id == id);
   if (!record) return;
@@ -107,7 +106,7 @@ function openEditModal(id) {
       <input type="text" id="edit-mobile" value="${record.MOBILE_NO || ''}" required>
       
       <label for="edit-address">Address:</label>
-      <input type="text" id="edit-address" value="${record.ADDRESS || ''}" required>
+      <input type="text" id="edit-address" value="${record.ADDRESS || ''}" >
       
       <label for="edit-city">City:</label>
       <input type="text" id="edit-city" value="${record.CITY || ''}" required>
@@ -133,7 +132,7 @@ function openEditModal(id) {
     const newCity = document.getElementById('edit-city').value;
     const newStatus = document.getElementById('edit-status').value;
 
-    if (!newName || !newMobile || !newAddress || !newCity || !newStatus) {
+    if (!newName || !newMobile || !newCity || !newStatus) {
       alert('All fields are required!');
       return;
     }
@@ -150,7 +149,6 @@ function openEditModal(id) {
 
   document.getElementById('cancel-btn').addEventListener('click', closeModal);
 }
-
 
 function closeModal() {
   const modal = document.getElementById('edit-modal');
@@ -215,24 +213,56 @@ async function deleteRecord(id) {
   }
 }
 
+async function shareRecord(mobileNo) {
+  const loggedInEmail = localStorage.getItem('email'); // Get logged-in user's email
 
-function shareRecord(mobileNo) {
-  const isAndroid = /Android/i.test(navigator.userAgent);
-  const message = "Thank you for visiting *Bemor* - We hope you had a great experience exploring our furniture collection. Your feedback means the world to us! Please take a moment to share your thoughts by leaving us a review here: https://g.co/kgs/Qws5fwY. Looking forward to serving you again!";
-  //const whatsappURL = `https://wa.me/${mobileNo}?text=${encodeURIComponent(message)}`;
-  const encodedMessage = encodeURIComponent(message); // Encode the message for URL
-  
-  if (isAndroid) {
-    whatsappUri = `whatsapp://send?phone=${mobileNo}&text=${encodedMessage}`;
-  } else {
-    whatsappUri = `https://web.whatsapp.com/send?phone=${mobileNo}&text=${encodedMessage}`;
+  // Fetch user data from the USERS table
+  const url = 'https://asjhwvpavluqtwhedjcb.supabase.co/rest/v1/USER?select=EMP_NAME,EMAIL,CM_MSG';
+  const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzamh3dnBhdmx1cXR3aGVkamNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ5Mzc4MjYsImV4cCI6MjA1MDUxMzgyNn0.wSwmSssUykAMNiyoB3TXuxcr3VzgKSdTpfgehHtHWcA';
+
+  try {
+    const response = await fetch(`${url}&EMAIL=eq.${loggedInEmail}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': apiKey,
+        'Authorization': `Bearer ${apiKey}`,
+      },
+    });
+
+    const users = await response.json();
+
+    if (users.length === 0) {
+      console.error('User not found.');
+      return;
+    }
+
+    // Assuming users[0] contains the logged-in user details
+    const user = users[0];
+    const userName = user.CM_MSG || 'Customer'; // Use 'Customer' if EMP_NAME is not available
+
+    // Create personalized message using the user's name
+    const message = `Hello ${userName}`;
+
+    const encodedMessage = encodeURIComponent(message); // Encode the message for URL
+
+    // Determine if the user is on Android
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    let whatsappUri;
+    if (isAndroid) {
+      whatsappUri = `whatsapp://send?phone=${mobileNo}&text=${encodedMessage}`;
+    } else {
+      whatsappUri = `https://web.whatsapp.com/send?phone=${mobileNo}&text=${encodedMessage}`;
+    }
+
+    // Open WhatsApp in a new tab or the app if it's on mobile
+    window.open(whatsappUri, '_blank');
+  } catch (error) {
+    console.error('Error fetching user data:', error);
   }
-
-  //window.location.href = whatsappUri;
-  // Open WhatsApp in a new tab or the app if it's on mobile
-  window.open(whatsappUri, '_blank');
-
 }
+
 
 function filterData() {
   const searchTerm = document.getElementById('search').value.toLowerCase();
@@ -250,6 +280,133 @@ function toggleSortOrder() {
   currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
   document.getElementById('sort-btn').textContent = `Sort by id (${currentSortOrder === 'asc' ? 'Ascending' : 'Descending'})`;
   sortDataById();
+}
+
+document.getElementById('add-record-btn').addEventListener('click', openAddModal);
+
+async function fetchUsers() {
+  const loggedInEmail = localStorage.getItem('email'); // Retrieve the logged-in user's email
+  const usersUrl = 'https://asjhwvpavluqtwhedjcb.supabase.co/rest/v1/USER?select=EMP_NAME,EMAIL';
+
+  try {
+    const response = await fetch(usersUrl, {
+      headers: {
+        'apikey': apiKey,
+        'Authorization': `Bearer ${apiKey}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch users');
+    }
+
+    const users = await response.json();
+
+    return users.map(user => ({
+      ...user,
+      isDefault: user.EMAIL === loggedInEmail, // Mark if this is the default user
+    }));
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return [];
+  }
+}
+
+async function openAddModal() {
+  const users = await fetchUsers();
+
+  const modal = document.createElement('div');
+  modal.id = 'add-modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h2>Add Record</h2>
+      <label for="add-name">Name:</label>
+      <input type="text" id="add-name" required>
+      
+      <label for="add-mobile">Mobile No:</label>
+      <input type="text" id="add-mobile" required>
+      
+      <label for="add-address">Address:</label>
+      <input type="text" id="add-address" >
+      
+      <label for="add-city">City:</label>
+      <input type="text" id="add-city" required>
+
+      <label for="add-status">Status:</label>
+      <select id="add-status" required>
+      <option value="FALSE">FALSE</option>  
+      <option value="TRUE">TRUE</option>
+      </select>
+
+      <label for="add-user-code">User Code:</label>
+      <select id="add-user-code" required>
+        <option value="" disabled>Select User</option>
+        ${users.map(user => `
+          <option value="${user.USER_CODE}" ${user.isDefault ? 'selected' : ''}>
+            ${user.EMP_NAME}
+          </option>`).join('')}
+      </select>
+
+      <button id="insert-btn">Add</button>
+      <button id="cancel-add-btn">Cancel</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('insert-btn').addEventListener('click', insertRecord);
+  document.getElementById('cancel-add-btn').addEventListener('click', closeAddModal);
+}
+
+function closeAddModal() {
+  const modal = document.getElementById('add-modal');
+  if (modal) modal.remove();
+}
+
+async function insertRecord() {
+  const newName = document.getElementById('add-name').value;
+  const newMobile = document.getElementById('add-mobile').value;
+  const newAddress = document.getElementById('add-address').value;
+  const newCity = document.getElementById('add-city').value;
+  const newStatus = document.getElementById('add-status').value === 'TRUE';
+  const userCode = document.getElementById('add-user-code').value;
+
+  if (!newName || !newMobile || !newCity || !userCode) {
+    alert('All fields are required!');
+    return;
+  }
+
+  const newRecord = {
+    NAME: newName,
+    MOBILE_NO: newMobile,
+    ADDRESS: newAddress,
+    CITY: newCity,
+    STATUS: newStatus,
+    USER_CODE: userCode, // Add the selected User Code
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'apikey': apiKey,
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newRecord),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add record');
+    }
+
+    // Fetch and refresh data after successful insertion
+    await fetchData();
+    alert('Record added successfully!');
+    closeAddModal();
+  } catch (error) {
+    console.error('Error adding record:', error);
+    alert('Failed to add record.');
+  }
 }
 
 // Initial fetch
