@@ -103,7 +103,8 @@ function openEditModal(id) {
       <input type="text" id="edit-name" value="${record.NAME || ''}" required>
       
       <label for="edit-mobile">Mobile No:</label>
-      <input type="text" id="edit-mobile" value="${record.MOBILE_NO || ''}" required>
+      <input type="tel" minlength="10" maxlength="10" id="edit-mobile" value="${record.MOBILE_NO || ''}" required>
+      
       
       <label for="edit-address">Address:</label>
       <input type="text" id="edit-address" value="${record.ADDRESS || ''}" >
@@ -117,6 +118,10 @@ function openEditModal(id) {
         <option value="FALSE" ${record.STATUS === false ? 'selected' : ''}>FALSE</option>
       </select>
 
+
+      <label for="edit-user-code">User Code:</label>
+      <input type="text" id="edit-user-code" value="${record.USER_CODE}" required>
+      
       
       <button id="save-btn">Save</button>
       <button id="cancel-btn">Cancel</button>
@@ -324,7 +329,7 @@ async function openAddModal() {
       <input type="text" id="add-name" required>
       
       <label for="add-mobile">Mobile No:</label>
-      <input type="text" id="add-mobile" required>
+      <input type="tel" maxlength="10" id="add-mobile" required>
       
       <label for="add-address">Address:</label>
       <input type="text" id="add-address" >
@@ -335,7 +340,7 @@ async function openAddModal() {
       <label for="add-status">Status:</label>
       <select id="add-status" required>
       <option value="FALSE">FALSE</option>  
-      <option value="TRUE">TRUE</option>
+      
       </select>
 
       <label for="add-user-code">User Code:</label>
